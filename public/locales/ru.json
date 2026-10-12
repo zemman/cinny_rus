@@ -1,0 +1,91 @@
+{
+  "Organisms": {
+    "RoomCommon": {
+      "changed_room_name": " изменил(а) название комнаты"
+    }
+  },
+  "Settings": {
+    "language": "Язык (Language)",
+    "General": {
+      "title": "Общие",
+      "appearance": "Внешний вид",
+      "systemTheme": "Системная тема",
+      "systemThemeDesc": "Тема, используемая, когда системная тема отключена.",
+      "theme": "Тема",
+      "lightTheme": "Светлая тема:",
+      "darkTheme": "Темная тема:",
+      "monochromeMode": "Монохромный режим",
+      "twitterEmoji": "Twitter Emoji",
+      "dateAndTime": "Дата и время",
+      "timeFormat": "Формат времени",
+      "dateFormat": "Формат даты",
+      "customDateFormat": "Пользовательский формат даты",
+      "editor": "Редактор",
+      "sendTyping": "Отправлять уведомление о наборе текста",
+      "enterForNewline": "ENTER для новой строки",
+      "messages": "Сообщения",
+      "messageLayout": "Макет сообщений",
+      "compactSpacing": "Компактные отступы",
+      "urlPreview": "Предпросмотр ссылок",
+      "urlPreviewEncrypted": "Предпросмотр ссылок в зашифрованных комнатах",
+      "hideMembership": "Скрывать события входа/выхода",
+      "hideNickAvatar": "Скрывать смену ника/аватара",
+      "showHiddenEvents": "Показывать скрытые события",
+      "other": "Другое",
+      "pageZoom": "Масштаб страницы"
+    }
+  },
+  "Auth": {
+    "Login": {
+      "title": "Вход",
+      "notSupported": "Этот клиент не поддерживает вход на сервере \"{{server}}\". Пароль и SSO методы входа не найдены.",
+      "noAccount": "Нет аккаунта?",
+      "register": "Зарегистрироваться"
+    },
+    "Register": {
+      "title": "Регистрация",
+      "notSupported": "Этот клиент не поддерживает регистрацию на сервере \"{{server}}\". Регистрация либо отключена, либо требует токен/SSO, что сейчас не поддерживается.",
+      "hasAccount": "Уже есть аккаунт?",
+      "login": "Войти"
+    },
+    "LoginForm": {
+      "hintTitle": "Подсказка",
+      "username": "Имя пользователя",
+      "password": "Пароль",
+      "forgetPassword": "Забыли пароль?",
+      "errorServerNotAllowed": "Вход на пользовательский сервер не разрешен вашим клиентом.",
+      "errorInvalidServer": "Не удалось найти сервер вашего Matrix ID.",
+      "errorForbidden": "Неверное имя пользователя или пароль.",
+      "errorDeactivated": "Этот аккаунт деактивирован.",
+      "errorInvalidRequest": "Не удалось войти. Часть данных запроса недействительна.",
+      "errorRateLimited": "Слишком много попыток входа. Пожалуйста, подождите и попробуйте позже.",
+      "errorUnknown": "Не удалось войти. Неизвестная причина."
+    }
+  },
+  "Navigation": {
+    "notifications": "Уведомления",
+    "invite": "Пригласить",
+    "copyLink": "Копировать ссылку",
+    "roomSettings": "Настройки комнаты",
+    "leaveRoom": "Покинуть комнату",
+    "toggleChat": "Свернуть/Развернуть чат",
+    "moreOptions": "Больше опций",
+    "live": "{{count}} в эфире",
+    "closedDMs": "Скрытые ЛС",
+    "closedCategories": "Скрытые категории",
+    "favorites": "Избранное",
+    "people": "Люди",
+    "rooms": "Комнаты",
+    "lowPriority": "Низкий приоритет",
+    "serverNotices": "Системные уведомления"
+  },
+  "Lobby": {
+    "pinned": "Закрепленные",
+    "spaces": "Пространства",
+    "rooms": "Комнаты",
+    "noRooms": "Похоже, в этом пространстве нет комнат.",
+    "join": "Присоединиться",
+    "view": "Просмотр",
+    "copyLink": "Копировать ссылку"
+  }
+}

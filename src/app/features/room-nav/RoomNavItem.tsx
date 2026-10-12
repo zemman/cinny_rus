@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { MouseEventHandler, forwardRef, useState } from 'react';
 import { Room } from 'matrix-js-sdk';
 import {
@@ -220,13 +221,14 @@ const RoomNavItemMenu = forwardRef<HTMLDivElement, RoomNavItemMenuProps>(
 );
 
 function CallChatToggle() {
+  const { t } = useTranslation();
   const [chat, setChat] = useAtom(callChatAtom);
 
   return (
     <IconButton
       onClick={() => setChat(!chat)}
       aria-pressed={chat}
-      aria-label="Toggle Chat"
+      aria-label={t('Navigation.toggleChat', 'Toggle Chat')}
       variant="Background"
       fill="None"
       size="300"
@@ -253,6 +255,7 @@ export function RoomNavItem({
   notificationMode,
   linkPath,
 }: RoomNavItemProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const [hover, setHover] = useState(false);
@@ -382,7 +385,7 @@ export function RoomNavItem({
             {callMembers.length > 0 && (
               <Badge variant="Critical" fill="Solid" size="400">
                 <Text as="span" size="L400" truncate>
-                  {callMembers.length} Live
+                  {t('Navigation.live', '{{count}} Live', { count: callMembers.length })}
                 </Text>
               </Badge>
             )}
@@ -426,7 +429,7 @@ export function RoomNavItem({
               onClick={handleOpenMenu}
               aria-pressed={!!menuAnchor}
               aria-controls={`menu-${room.roomId}`}
-              aria-label="More Options"
+              aria-label={t('Navigation.moreOptions', 'More Options')}
               variant="Background"
               fill="None"
               size="300"
