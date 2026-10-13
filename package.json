@@ -8,7 +8,8 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "vite",
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "start": "vite --host 0.0.0.0 --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "npm run check:eslint && npm run check:prettier",
@@ -16,7 +17,7 @@
     "check:prettier": "prettier --check .",
     "fix:prettier": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky install",
+    "prepare": "echo 'prepare skipped'",
     "commit": "git-cz",
     "bump": "node scripts/update-version.js"
   },

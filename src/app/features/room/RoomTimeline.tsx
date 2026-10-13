@@ -1418,7 +1418,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                 <Box grow="Yes" direction="Column">
                   <Text size="T300" priority="300">
                     <b>{senderName}</b>
-                    {' changed room topic'}
+                    {t('Chat.Timeline.changed_room_topic', ' changed room topic')}
                   </Text>
                 </Box>
               }
@@ -1461,7 +1461,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                 <Box grow="Yes" direction="Column">
                   <Text size="T300" priority="300">
                     <b>{senderName}</b>
-                    {' changed room avatar'}
+                    {t('Chat.Timeline.changed_room_avatar', ' changed room avatar')}
                   </Text>
                 </Box>
               }
@@ -1512,7 +1512,9 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                 <Box grow="Yes" direction="Column">
                   <Text size="T300" priority="300">
                     <b>{senderName}</b>
-                    {callJoined ? ' joined the call' : ' ended the call'}
+                    {callJoined
+                      ? t('Chat.Timeline.joined_call', ' joined the call')
+                      : t('Chat.Timeline.ended_call', ' ended the call')}
                   </Text>
                 </Box>
               }
@@ -1557,9 +1559,9 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               <Box grow="Yes" direction="Column">
                 <Text size="T300" priority="300">
                   <b>{senderName}</b>
-                  {' sent '}
-                  <code className={customHtmlCss.Code}>{mEvent.getType()}</code>
-                  {' state event'}
+                  {t('Chat.Timeline.sent_state_event', ' sent {{type}} state event', {
+                    type: mEvent.getType(),
+                  })}
                 </Text>
               </Box>
             }
@@ -1607,9 +1609,9 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               <Box grow="Yes" direction="Column">
                 <Text size="T300" priority="300">
                   <b>{senderName}</b>
-                  {' sent '}
-                  <code className={customHtmlCss.Code}>{mEvent.getType()}</code>
-                  {' event'}
+                  {t('Chat.Timeline.sent_event', ' sent {{type}} event', {
+                    type: mEvent.getType(),
+                  })}
                 </Text>
               </Box>
             }
@@ -1675,7 +1677,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         <MessageBase space={messageSpacing}>
           <TimelineDivider style={{ color: color.Success.Main }} variant="Inherit">
             <Badge as="span" size="500" variant="Success" fill="Solid" radii="300">
-              <Text size="L400">New Messages</Text>
+              <Text size="L400">{t('Chat.Timeline.new_messages', 'New Messages')}</Text>
             </Badge>
           </TimelineDivider>
         </MessageBase>
@@ -1688,8 +1690,8 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             <Badge as="span" size="500" variant="Secondary" fill="None" radii="300">
               <Text size="L400">
                 {(() => {
-                  if (today(mEvent.getTs())) return 'Today';
-                  if (yesterday(mEvent.getTs())) return 'Yesterday';
+                  if (today(mEvent.getTs())) return t('Chat.Timeline.today', 'Today');
+                  if (yesterday(mEvent.getTs())) return t('Chat.Timeline.yesterday', 'Yesterday');
                   return timeDayMonthYear(mEvent.getTs());
                 })()}
               </Text>
@@ -1725,7 +1727,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             before={<Icon size="50" src={Icons.MessageUnread} />}
             onClick={handleJumpToUnread}
           >
-            <Text size="L400">Jump to Unread</Text>
+            <Text size="L400">{t('Chat.Timeline.jump_to_unread', 'Jump to Unread')}</Text>
           </Chip>
 
           <Chip
@@ -1735,7 +1737,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             before={<Icon size="50" src={Icons.CheckTwice} />}
             onClick={handleMarkAsRead}
           >
-            <Text size="L400">Mark as Read</Text>
+            <Text size="L400">{t('Chat.Header.mark_as_read', 'Mark as Read')}</Text>
           </Chip>
         </TimelineFloat>
       )}
@@ -1835,7 +1837,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             before={<Icon size="50" src={Icons.ArrowBottom} />}
             onClick={handleJumpToLatest}
           >
-            <Text size="L400">Jump to Latest</Text>
+            <Text size="L400">{t('Chat.Timeline.jump_to_latest', 'Jump to Latest')}</Text>
           </Chip>
         </TimelineFloat>
       )}

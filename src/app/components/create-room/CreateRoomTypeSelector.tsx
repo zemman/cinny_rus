@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Text, Icon, Icons, config, IconSrc } from 'folds';
 import { SequenceCard } from '../sequence-card';
 import { SettingTile } from '../setting-tile';
@@ -17,6 +18,8 @@ export function CreateRoomTypeSelector({
   disabled,
   getIcon,
 }: CreateRoomTypeSelectorProps) {
+  const { t } = useTranslation();
+
   return (
     <Box shrink="No" direction="Column" gap="100">
       <SequenceCard
@@ -36,10 +39,10 @@ export function CreateRoomTypeSelector({
         >
           <Box gap="200" alignItems="Baseline">
             <Text size="H6" style={{ flexShrink: 0 }}>
-              Chat Room
+              {t('Create.chatRoom', 'Chat Room')}
             </Text>
             <Text size="T300" priority="300" truncate>
-              - Messages, photos, and videos.
+              {t('Create.chatRoomDesc', '- Messages, photos, and videos.')}
             </Text>
           </Box>
         </SettingTile>
@@ -61,10 +64,10 @@ export function CreateRoomTypeSelector({
         >
           <Box gap="200" alignItems="Baseline">
             <Text size="H6" style={{ flexShrink: 0 }}>
-              Voice Room
+              {t('Create.voiceRoom', 'Voice Room')}
             </Text>
             <Text size="T300" priority="300" truncate>
-              - Live audio and video conversations.
+              {t('Create.voiceRoomDesc', '- Live audio and video conversations.')}
             </Text>
             <BetaNoticeBadge />
           </Box>

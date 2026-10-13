@@ -14,6 +14,7 @@ import {
 import { Room } from 'matrix-js-sdk';
 import classNames from 'classnames';
 import FocusTrap from 'focus-trap-react';
+import { useTranslation } from 'react-i18next';
 
 import { getMemberDisplayName } from '../../utils/room';
 import { getMxIdLocalPart } from '../../utils/matrix';
@@ -33,6 +34,7 @@ export type RoomViewFollowingProps = {
 };
 export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
   ({ className, room, ...props }, ref) => {
+    const { t } = useTranslation();
     const mx = useMatrixClient();
     const [open, setOpen] = useState(false);
     const latestEvent = useRoomLatestRenderedEvent(room);
@@ -83,7 +85,7 @@ export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
                   <>
                     <b>{names[0]}</b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' is following the conversation.'}
+                      {t('Chat.Following.is_following', ' is following the conversation.')}
                     </Text>
                   </>
                 )}
@@ -91,11 +93,11 @@ export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
                   <>
                     <b>{names[0]}</b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' and '}
+                      {t('Chat.Following.and', ' and ')}
                     </Text>
                     <b>{names[1]}</b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' are following the conversation.'}
+                      {t('Chat.Following.are_following', ' are following the conversation.')}
                     </Text>
                   </>
                 )}
@@ -107,11 +109,11 @@ export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
                     </Text>
                     <b>{names[1]}</b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' and '}
+                      {t('Chat.Following.and', ' and ')}
                     </Text>
                     <b>{names[2]}</b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' are following the conversation.'}
+                      {t('Chat.Following.are_following', ' are following the conversation.')}
                     </Text>
                   </>
                 )}
@@ -127,11 +129,14 @@ export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
                     </Text>
                     <b>{names[2]}</b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' and '}
+                      {t('Chat.Following.and', ' and ')}
                     </Text>
-                    <b>{names.length - 3} others</b>
+                    <b>
+                      {names.length - 3}
+                      {t('Chat.Following.others', ' others')}
+                    </b>
                     <Text as="span" size="Inherit" priority="300">
-                      {' are following the conversation.'}
+                      {t('Chat.Following.are_following', ' are following the conversation.')}
                     </Text>
                   </>
                 )}

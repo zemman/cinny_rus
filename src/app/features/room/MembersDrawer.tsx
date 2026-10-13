@@ -27,6 +27,7 @@ import {
   config,
 } from 'folds';
 import { MatrixClient, Room, RoomMember } from 'matrix-js-sdk';
+import { useTranslation } from 'react-i18next';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import classNames from 'classnames';
 
@@ -64,14 +65,23 @@ type MemberDrawerHeaderProps = {
   room: Room;
 };
 function MemberDrawerHeader({ room }: MemberDrawerHeaderProps) {
+  const { t } = useTranslation();
   const setPeopleDrawer = useSetSetting(settingsAtom, 'isPeopleDrawer');
 
   return (
     <Header className={css.MembersDrawerHeader} variant="Background" size="600">
       <Box grow="Yes" alignItems="Center" gap="200">
         <Box grow="Yes" alignItems="Center" gap="200">
-          <Text title={`${room.getJoinedMemberCount()} Members`} size="H5" truncate>
-            {`${millify(room.getJoinedMemberCount())} Members`}
+          <Text
+            title={t('Chat.MembersDrawer.members_count', '{{count}} Members', {
+              count: room.getJoinedMemberCount(),
+            })}
+            size="H5"
+            truncate
+          >
+            {t('Chat.MembersDrawer.members_count', '{{count}} Members', {
+              count: millify(room.getJoinedMemberCount()),
+            })}
           </Text>
         </Box>
         <Box shrink="No" alignItems="Center">
@@ -81,7 +91,7 @@ function MemberDrawerHeader({ room }: MemberDrawerHeaderProps) {
             offset={4}
             tooltip={
               <Tooltip>
-                <Text>Close</Text>
+                <Text>{t('Chat.MembersDrawer.close', 'Close')}</Text>
               </Tooltip>
             }
           >
@@ -177,6 +187,7 @@ type MembersDrawerProps = {
   members: RoomMember[];
 };
 export function MembersDrawer({ room, members }: MembersDrawerProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -326,7 +337,7 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
                   ref={searchInputRef}
                   onChange={handleSearchChange}
                   style={{ paddingRight: config.space.S200 }}
-                  placeholder="Type name..."
+                  placeholder={t('Chat.MembersDrawer.search_placeholder', 'Type name...')}
                   variant="Surface"
                   size="400"
                   radii="400"
@@ -347,9 +358,15 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
                         }}
                         after={<Icon size="50" src={Icons.Cross} />}
                       >
-                        <Text size="B300">{`${result.items.length || 'No'} ${
-                          result.items.length === 1 ? 'Result' : 'Results'
-                        }`}</Text>
+                        <Text size="B300">
+                          {result.items.length === 0
+                            ? t('Chat.MembersDrawer.no_results', 'No Results')
+                            : `${result.items.length} ${
+                                result.items.length === 1
+                                  ? t('Chat.MembersDrawer.results_single', 'Result')
+                                  : t('Chat.MembersDrawer.results_multi', 'Results')
+                              }`}
+                        </Text>
                       </Chip>
                     )
                   }
@@ -364,7 +381,7 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
                 radii="Pill"
                 outlined
                 size="300"
-                aria-label="Scroll to Top"
+                aria-label={t('Chat.MembersDrawer.scroll_to_top', 'Scroll to Top')}
               >
                 <Icon src={Icons.ChevronTop} size="300" />
               </IconButton>
@@ -372,7 +389,9 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
 
             {!fetchingMembers && !result && processMembers.length === 0 && (
               <Text style={{ padding: config.space.S300 }} align="Center">
-                {`No "${membershipFilter.name}" Members`}
+                {t('Chat.MembersDrawer.no_filtered_members', 'No "{{filter}}" Members', {
+                  filter: membershipFilter.name,
+                })}
               </Text>
             )}
 

@@ -29,6 +29,7 @@ import {
   toRem,
 } from 'folds';
 
+import { useTranslation } from 'react-i18next';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import {
   CustomEditor,
@@ -126,6 +127,7 @@ interface RoomInputProps {
 }
 export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
   ({ editor, fileDropContainerRef, roomId, room }, ref) => {
+    const { t } = useTranslation();
     const mx = useMatrixClient();
     const useAuthentication = useMediaAuthentication();
     const [enterForNewline] = useSetting(settingsAtom, 'enterForNewline');
@@ -497,9 +499,16 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
               >
                 <Icon size="600" src={Icons.File} />
                 <Text size="H4" align="Center">
-                  {`Drop Files in "${room?.name || 'Room'}"`}
+                  {t('Chat.Composer.drop_files_title', 'Drop Files in "{{name}}"', {
+                    name: room?.name || 'Room',
+                  })}
                 </Text>
-                <Text align="Center">Drag and drop files here or click for selection dialog</Text>
+                <Text align="Center">
+                  {t(
+                    'Chat.Composer.drop_files_desc',
+                    'Drag and drop files here or click for selection dialog'
+                  )}
+                </Text>
               </Box>
             </Dialog>
           </OverlayCenter>
@@ -539,7 +548,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
         <CustomEditor
           editableName="RoomInput"
           editor={editor}
-          placeholder="Send a message..."
+          placeholder={t('Chat.Composer.placeholder', 'Send a message...')}
           onKeyDown={handleKeyDown}
           onKeyUp={handleKeyUp}
           onPaste={handlePaste}
@@ -556,6 +565,8 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                     variant="SurfaceVariant"
                     size="300"
                     radii="300"
+                    title={t('Chat.Composer.cancel_reply', 'Cancel reply')}
+                    aria-label={t('Chat.Composer.cancel_reply', 'Cancel reply')}
                   >
                     <Icon src={Icons.Cross} size="50" />
                   </IconButton>
@@ -588,6 +599,8 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
               variant="SurfaceVariant"
               size="300"
               radii="300"
+              title={t('Chat.Composer.upload_file', 'Upload file')}
+              aria-label={t('Chat.Composer.upload_file', 'Upload file')}
             >
               <Icon src={Icons.PlusCircle} />
             </IconButton>
@@ -599,6 +612,8 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                 size="300"
                 radii="300"
                 onClick={() => setToolbar(!toolbar)}
+                title={t('Chat.Composer.format_text', 'Text formatting')}
+                aria-label={t('Chat.Composer.format_text', 'Text formatting')}
               >
                 <Icon src={toolbar ? Icons.AlphabetUnderline : Icons.Alphabet} />
               </IconButton>
@@ -642,6 +657,8 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                         variant="SurfaceVariant"
                         size="300"
                         radii="300"
+                        title={t('Chat.Composer.stickers', 'Stickers')}
+                        aria-label={t('Chat.Composer.stickers', 'Stickers')}
                       >
                         <Icon
                           src={Icons.Sticker}
@@ -658,6 +675,8 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                       variant="SurfaceVariant"
                       size="300"
                       radii="300"
+                      title={t('Chat.Composer.emojis_stickers', 'Emojis & stickers')}
+                      aria-label={t('Chat.Composer.emojis_stickers', 'Emojis & stickers')}
                     >
                       <Icon
                         src={Icons.Smile}
@@ -669,7 +688,14 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                   </PopOut>
                 )}
               </UseStateProvider>
-              <IconButton onClick={submit} variant="SurfaceVariant" size="300" radii="300">
+              <IconButton
+                onClick={submit}
+                variant="SurfaceVariant"
+                size="300"
+                radii="300"
+                title={t('Chat.Composer.send', 'Send')}
+                aria-label={t('Chat.Composer.send', 'Send')}
+              >
                 <Icon src={Icons.Send} />
               </IconButton>
             </>

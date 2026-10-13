@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   Avatar,
@@ -92,6 +93,7 @@ type SpaceMenuProps = {
   requestClose: () => void;
 };
 const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClose }, ref) => {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const [hideActivity] = useSetting(settingsAtom, 'hideActivity');
   const [developerTools] = useSetting(settingsAtom, 'developerTools');
@@ -159,7 +161,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
           disabled={!unread}
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Mark as Read
+            {t('Navigation.markAsRead', 'Mark as Read')}
           </Text>
         </MenuItem>
       </Box>
@@ -176,7 +178,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
           disabled={!canInvite}
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Invite
+            {t('Navigation.invite', 'Invite')}
           </Text>
         </MenuItem>
         <MenuItem
@@ -186,7 +188,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
           radii="300"
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Copy Link
+            {t('Navigation.copyLink', 'Copy Link')}
           </Text>
         </MenuItem>
         <MenuItem
@@ -196,7 +198,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
           radii="300"
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Space Settings
+            {t('Navigation.spaceSettings', 'Space Settings')}
           </Text>
         </MenuItem>
         {developerTools && (
@@ -207,7 +209,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
             radii="300"
           >
             <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-              Event Timeline
+              {t('Navigation.eventTimeline', 'Event Timeline')}
             </Text>
           </MenuItem>
         )}
@@ -227,7 +229,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
                 aria-pressed={promptLeave}
               >
                 <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                  Leave Space
+                  {t('Navigation.leaveSpace', 'Leave Space')}
                 </Text>
               </MenuItem>
               {promptLeave && (
@@ -309,6 +311,7 @@ function SpaceHeader() {
 
 type SpaceTombstoneProps = { roomId: string; replacementRoomId: string };
 export function SpaceTombstone({ roomId, replacementRoomId }: SpaceTombstoneProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const { navigateSpace } = useRoomNavigate();
 
@@ -340,11 +343,14 @@ export function SpaceTombstone({ roomId, replacementRoomId }: SpaceTombstoneProp
       gap="300"
     >
       <Box direction="Column" grow="Yes" gap="100">
-        <Text size="L400">Space Upgraded</Text>
-        <Text size="T200">This space has been replaced and is no longer active.</Text>
+        <Text size="L400">{t('Navigation.spaceUpgraded', 'Space Upgraded')}</Text>
+        <Text size="T200">
+          {t('Navigation.spaceUpgradedDesc', 'This space has been replaced and is no longer active.')}
+        </Text>
         {joinState.status === AsyncStatus.Error && (
           <Text className={BreakWord} style={{ color: color.Critical.Main }} size="T200">
-            {(joinState.error as any)?.message ?? 'Failed to join replacement space!'}
+            {(joinState.error as any)?.message ??
+              t('Navigation.failedJoinReplacement', 'Failed to join replacement space!')}
           </Text>
         )}
       </Box>
@@ -352,7 +358,7 @@ export function SpaceTombstone({ roomId, replacementRoomId }: SpaceTombstoneProp
         {replacementRoom?.getMyMembership() === Membership.Join ||
         joinState.status === AsyncStatus.Success ? (
           <Button onClick={handleOpen} size="300" variant="Success" fill="Solid" radii="300">
-            <Text size="B300">Open New Space</Text>
+            <Text size="B300">{t('Navigation.openNewSpace', 'Open New Space')}</Text>
           </Button>
         ) : (
           <Button
@@ -368,7 +374,7 @@ export function SpaceTombstone({ roomId, replacementRoomId }: SpaceTombstoneProp
             }
             disabled={joinState.status === AsyncStatus.Loading}
           >
-            <Text size="B300">Join New Space</Text>
+            <Text size="B300">{t('Navigation.joinNewSpace', 'Join New Space')}</Text>
           </Button>
         )}
       </Box>
@@ -461,7 +467,7 @@ export function Space() {
                     </Avatar>
                     <Box as="span" grow="Yes">
                       <Text as="span" size="Inherit" truncate>
-                        Lobby
+                        {t('Navigation.lobby', 'Lobby')}
                       </Text>
                     </Box>
                   </Box>
@@ -477,7 +483,7 @@ export function Space() {
                     </Avatar>
                     <Box as="span" grow="Yes">
                       <Text as="span" size="Inherit" truncate>
-                        Message Search
+                        {t('Navigation.messageSearch', 'Message Search')}
                       </Text>
                     </Box>
                   </Box>
@@ -512,7 +518,7 @@ export function Space() {
                           onClick={handleCategoryClick}
                           closed={closedCategories.has(categoryId)}
                         >
-                          {roomId === space.roomId ? 'Rooms' : room?.name}
+                          {roomId === space.roomId ? t('Navigation.rooms', 'Rooms') : room?.name}
                         </RoomNavCategoryButton>
                       </NavCategoryHeader>
                     </div>

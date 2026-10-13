@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Text, Icon, Icons, config, IconSrc } from 'folds';
 import { SequenceCard } from '../sequence-card';
 import { SettingTile } from '../setting-tile';
@@ -18,6 +19,8 @@ export function CreateRoomAccessSelector({
   disabled,
   getIcon,
 }: CreateRoomAccessSelectorProps) {
+  const { t } = useTranslation();
+
   return (
     <Box shrink="No" direction="Column" gap="100">
       {canRestrict && (
@@ -36,9 +39,9 @@ export function CreateRoomAccessSelector({
             before={<Icon size="400" src={getIcon(CreateRoomAccess.Restricted)} />}
             after={value === CreateRoomAccess.Restricted && <Icon src={Icons.Check} />}
           >
-            <Text size="H6">Restricted</Text>
+            <Text size="H6">{t('Create.restricted', 'Restricted')}</Text>
             <Text size="T300" priority="300">
-              Only member of parent space can join.
+              {t('Create.restrictedDesc', 'Only member of parent space can join.')}
             </Text>
           </SettingTile>
         </SequenceCard>
@@ -58,9 +61,9 @@ export function CreateRoomAccessSelector({
           before={<Icon size="400" src={getIcon(CreateRoomAccess.Private)} />}
           after={value === CreateRoomAccess.Private && <Icon src={Icons.Check} />}
         >
-          <Text size="H6">Private</Text>
+          <Text size="H6">{t('Create.private', 'Private')}</Text>
           <Text size="T300" priority="300">
-            Only people with invite can join.
+            {t('Create.privateDesc', 'Only people with invite can join.')}
           </Text>
         </SettingTile>
       </SequenceCard>
@@ -79,9 +82,9 @@ export function CreateRoomAccessSelector({
           before={<Icon size="400" src={getIcon(CreateRoomAccess.Public)} />}
           after={value === CreateRoomAccess.Public && <Icon src={Icons.Check} />}
         >
-          <Text size="H6">Public</Text>
+          <Text size="H6">{t('Create.public', 'Public')}</Text>
           <Text size="T300" priority="300">
-            Anyone with the address can join.
+            {t('Create.publicDesc', 'Anyone with the address can join.')}
           </Text>
         </SettingTile>
       </SequenceCard>

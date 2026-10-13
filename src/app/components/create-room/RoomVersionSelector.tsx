@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -28,6 +29,7 @@ export function RoomVersionSelector({
   onChange: (value: string) => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
   const [menuCords, setMenuCords] = useState<RectCords>();
 
   const handleMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
@@ -47,7 +49,7 @@ export function RoomVersionSelector({
       gap="500"
     >
       <SettingTile
-        title="Version"
+        title={t('Create.version', 'Version')}
         after={
           <PopOut
             anchor={menuCords}
@@ -73,7 +75,7 @@ export function RoomVersionSelector({
                     gap="200"
                     style={{ padding: config.space.S200, maxWidth: toRem(300) }}
                   >
-                    <Text size="L400">Versions</Text>
+                    <Text size="L400">{t('Create.versions', 'Versions')}</Text>
                     <Box wrap="Wrap" gap="100">
                       {versions.map((version) => (
                         <Chip

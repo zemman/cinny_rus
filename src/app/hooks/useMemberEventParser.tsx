@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { IconSrc, Icons } from 'folds';
 import { MatrixEvent } from 'matrix-js-sdk';
+import { useTranslation } from 'react-i18next';
 import { IMemberContent, Membership } from '../../types/matrix/room';
 import { getMxIdLocalPart } from '../utils/matrix';
 import { isMembershipChanged } from '../utils/room';
@@ -13,6 +14,8 @@ export type ParsedResult = {
 export type MemberEventParser = (mEvent: MatrixEvent) => ParsedResult;
 
 export const useMemberEventParser = (): MemberEventParser => {
+  const { t } = useTranslation();
+
   const parseMemberEvent: MemberEventParser = (mEvent) => {
     const content = mEvent.getContent<IMemberContent>();
     const prevContent = mEvent.getPrevContent() as IMemberContent;
@@ -23,7 +26,7 @@ export const useMemberEventParser = (): MemberEventParser => {
     if (!senderId || !userId)
       return {
         icon: Icons.User,
-        body: 'Broken membership event',
+        body: t('Chat.Timeline.broken_membership', 'Broken membership event'),
       };
 
     const senderName = getMxIdLocalPart(senderId);
@@ -40,10 +43,9 @@ export const useMemberEventParser = (): MemberEventParser => {
             body: (
               <>
                 <b>{senderName}</b>
-                {' accepted '}
+                {t('Chat.Timeline.accepted_join_request', ' accepted ')}
                 <b>{userName}</b>
-                {`'s join request `}
-                {reason}
+                {reason ? ` (${reason})` : ''}
               </>
             ),
           };
@@ -54,8 +56,9 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{senderName}</b>
-              {' invited '}
-              <b>{userName}</b> {reason}
+              {t('Chat.Timeline.invited', ' invited ')}
+              <b>{userName}</b>
+              {reason ? ` (${reason})` : ''}
             </>
           ),
         };
@@ -67,8 +70,8 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{userName}</b>
-              {' request to join room '}
-              {reason}
+              {t('Chat.Timeline.join_request', ' request to join room')}
+              {reason ? ` (${reason})` : ''}
             </>
           ),
         };
@@ -80,7 +83,7 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{userName}</b>
-              {' joined the room'}
+              {t('Chat.Timeline.joined', ' joined the room')}
             </>
           ),
         };
@@ -94,16 +97,15 @@ export const useMemberEventParser = (): MemberEventParser => {
               senderId === userId ? (
                 <>
                   <b>{userName}</b>
-                  {' rejected the invitation '}
-                  {reason}
+                  {t('Chat.Timeline.rejected_invitation', ' rejected the invitation')}
+                  {reason ? ` (${reason})` : ''}
                 </>
               ) : (
                 <>
                   <b>{senderName}</b>
-                  {' rejected '}
+                  {t('Chat.Timeline.rejected_join_request', ' rejected ')}
                   <b>{userName}</b>
-                  {`'s join request `}
-                  {reason}
+                  {reason ? ` (${reason})` : ''}
                 </>
               ),
           };
@@ -116,16 +118,15 @@ export const useMemberEventParser = (): MemberEventParser => {
               senderId === userId ? (
                 <>
                   <b>{userName}</b>
-                  {' revoked joined request '}
-                  {reason}
+                  {t('Chat.Timeline.revoked_join_request', ' revoked join request')}
+                  {reason ? ` (${reason})` : ''}
                 </>
               ) : (
                 <>
                   <b>{senderName}</b>
-                  {' revoked '}
+                  {t('Chat.Timeline.revoked_invite', ' revoked ')}
                   <b>{userName}</b>
-                  {`'s invite `}
-                  {reason}
+                  {reason ? ` (${reason})` : ''}
                 </>
               ),
           };
@@ -137,8 +138,9 @@ export const useMemberEventParser = (): MemberEventParser => {
             body: (
               <>
                 <b>{senderName}</b>
-                {' unbanned '}
-                <b>{userName}</b> {reason}
+                {t('Chat.Timeline.unbanned', ' unbanned ')}
+                <b>{userName}</b>
+                {reason ? ` (${reason})` : ''}
               </>
             ),
           };
@@ -150,14 +152,15 @@ export const useMemberEventParser = (): MemberEventParser => {
             senderId === userId ? (
               <>
                 <b>{userName}</b>
-                {' left the room '}
-                {reason}
+                {t('Chat.Timeline.left', ' left the room')}
+                {reason ? ` (${reason})` : ''}
               </>
             ) : (
               <>
                 <b>{senderName}</b>
-                {' kicked '}
-                <b>{userName}</b> {reason}
+                {t('Chat.Timeline.kicked', ' kicked ')}
+                <b>{userName}</b>
+                {reason ? ` (${reason})` : ''}
               </>
             ),
         };
@@ -169,8 +172,9 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{senderName}</b>
-              {' banned '}
-              <b>{userName}</b> {reason}
+              {t('Chat.Timeline.banned', ' banned ')}
+              <b>{userName}</b>
+              {reason ? ` (${reason})` : ''}
             </>
           ),
         };
@@ -189,13 +193,13 @@ export const useMemberEventParser = (): MemberEventParser => {
           typeof content.displayname === 'string' ? (
             <>
               <b>{prevUserName}</b>
-              {' changed display name to '}
+              {t('Chat.Timeline.changed_display_name', ' changed display name to ')}
               <b>{userName}</b>
             </>
           ) : (
             <>
               <b>{prevUserName}</b>
-              {' removed their display name '}
+              {t('Chat.Timeline.removed_display_name', ' removed their display name')}
             </>
           ),
       };
@@ -207,12 +211,12 @@ export const useMemberEventParser = (): MemberEventParser => {
           content.avatar_url && typeof content.avatar_url === 'string' ? (
             <>
               <b>{userName}</b>
-              {' changed their avatar'}
+              {t('Chat.Timeline.changed_avatar', ' changed their avatar')}
             </>
           ) : (
             <>
               <b>{userName}</b>
-              {' removed their avatar '}
+              {t('Chat.Timeline.removed_avatar', ' removed their avatar')}
             </>
           ),
       };
@@ -220,7 +224,7 @@ export const useMemberEventParser = (): MemberEventParser => {
 
     return {
       icon: Icons.User,
-      body: 'Membership event with no changes',
+      body: t('Chat.Timeline.no_changes', 'Membership event with no changes'),
     };
   };
 

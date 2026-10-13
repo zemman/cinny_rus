@@ -25,6 +25,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { isKeyHotkey } from 'is-hotkey';
 import { useAtom, useAtomValue } from 'jotai';
 import { Room } from 'matrix-js-sdk';
@@ -135,6 +136,7 @@ type SearchProps = {
   requestClose: () => void;
 };
 export function Search({ requestClose }: SearchProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -269,7 +271,7 @@ export function Search({ requestClose }: SearchProps) {
                 variant="Background"
                 radii="400"
                 outlined
-                placeholder="Search"
+                placeholder={t('Navigation.search', 'Search')}
                 before={<Icon size="200" src={Icons.Search} />}
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
@@ -286,12 +288,14 @@ export function Search({ requestClose }: SearchProps) {
                   gap="100"
                 >
                   <Text size="H6" align="Center">
-                    {result ? 'No Match Found' : 'No Rooms'}
+                    {result ? t('Modal.noMatchFound', 'No Match Found') : t('Modal.noRoomsToDisplay', 'No Rooms')}
                   </Text>
                   <Text size="T200" align="Center">
                     {result
-                      ? `No match found for "${result.query}".`
-                      : `You do not have any Rooms to display yet.`}
+                      ? t('Modal.noMatchFoundFor', 'No match found for "{{query}}".', {
+                          query: result.query,
+                        })
+                      : t('Modal.noRoomsToDisplay', 'You do not have any Rooms to display yet.')}
                   </Text>
                 </Box>
               )}
@@ -409,8 +413,11 @@ export function Search({ requestClose }: SearchProps) {
             <Line size="300" />
             <Box shrink="No" justifyContent="Center" style={{ padding: config.space.S200 }}>
               <Text size="T200" priority="300">
-                Type <b>#</b> for rooms, <b>@</b> for DMs and <b>*</b> for spaces. Hotkey:{' '}
-                <b>{isMacOS() ? KeySymbol.Command : 'Ctrl'} + k</b>
+                {t(
+                  'Modal.searchHelper',
+                  'Type # for rooms, @ for DMs and * for spaces. Hotkey: {{hotkey}}',
+                  { hotkey: `${isMacOS() ? KeySymbol.Command : 'Ctrl'} + k` }
+                )}
               </Text>
             </Box>
           </Modal>

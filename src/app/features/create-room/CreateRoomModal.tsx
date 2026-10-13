@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   config,
@@ -29,6 +30,7 @@ type CreateRoomModalProps = {
   state: CreateRoomModalState;
 };
 function CreateRoomModal({ state }: CreateRoomModalProps) {
+  const { t } = useTranslation();
   const { spaceId, type } = state;
   const closeDialog = useCloseCreateRoomModal();
 
@@ -59,7 +61,9 @@ function CreateRoomModal({ state }: CreateRoomModalProps) {
                 >
                   <Box grow="Yes">
                     <Text size="H4">
-                      {type === CreateRoomType.VoiceRoom ? 'New Voice Room' : 'New Chat Room'}
+                      {type === CreateRoomType.VoiceRoom
+                        ? t('Create.newVoiceRoom', 'New Voice Room')
+                        : t('Create.newChatRoom', 'New Chat Room')}
                     </Text>
                   </Box>
                   <Box shrink="No">

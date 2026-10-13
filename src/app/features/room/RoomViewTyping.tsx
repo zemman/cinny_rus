@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Icon, IconButton, Icons, Text, as } from 'folds';
 import { Room } from 'matrix-js-sdk';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
 import { roomIdToTypingMembersAtom } from '../../state/typingMembers';
 import { TypingIndicator } from '../../components/typing-indicator';
@@ -16,6 +17,7 @@ export type RoomViewTypingProps = {
 };
 export const RoomViewTyping = as<'div', RoomViewTypingProps>(
   ({ className, room, ...props }, ref) => {
+    const { t } = useTranslation();
     const setTypingMembers = useSetAtom(roomIdToTypingMembersAtom);
     const mx = useMatrixClient();
     const typingMembers = useRoomTypingMember(room.roomId);
@@ -58,7 +60,7 @@ export const RoomViewTyping = as<'div', RoomViewTypingProps>(
               <>
                 <b>{typingNames[0]}</b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' is typing...'}
+                  {t('Chat.Typing.is_typing', ' is typing...')}
                 </Text>
               </>
             )}
@@ -66,11 +68,11 @@ export const RoomViewTyping = as<'div', RoomViewTypingProps>(
               <>
                 <b>{typingNames[0]}</b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' and '}
+                  {t('Chat.Typing.and', ' and ')}
                 </Text>
                 <b>{typingNames[1]}</b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' are typing...'}
+                  {t('Chat.Typing.are_typing', ' are typing...')}
                 </Text>
               </>
             )}
@@ -82,11 +84,11 @@ export const RoomViewTyping = as<'div', RoomViewTypingProps>(
                 </Text>
                 <b>{typingNames[1]}</b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' and '}
+                  {t('Chat.Typing.and', ' and ')}
                 </Text>
                 <b>{typingNames[2]}</b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' are typing...'}
+                  {t('Chat.Typing.are_typing', ' are typing...')}
                 </Text>
               </>
             )}
@@ -102,16 +104,24 @@ export const RoomViewTyping = as<'div', RoomViewTypingProps>(
                 </Text>
                 <b>{typingNames[2]}</b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' and '}
+                  {t('Chat.Typing.and', ' and ')}
                 </Text>
-                <b>{typingNames.length - 3} others</b>
+                <b>
+                  {typingNames.length - 3}
+                  {t('Chat.Typing.others', ' others')}
+                </b>
                 <Text as="span" size="Inherit" priority="300">
-                  {' are typing...'}
+                  {t('Chat.Typing.are_typing', ' are typing...')}
                 </Text>
               </>
             )}
           </Text>
-          <IconButton title="Drop Typing Status" size="300" radii="Pill" onClick={handleDropAll}>
+          <IconButton
+            title={t('Chat.Typing.drop_typing', 'Drop Typing Status')}
+            size="300"
+            radii="Pill"
+            onClick={handleDropAll}
+          >
             <Icon size="50" src={Icons.Cross} />
           </IconButton>
         </Box>

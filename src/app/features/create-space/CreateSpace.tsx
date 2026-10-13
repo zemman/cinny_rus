@@ -1,4 +1,5 @@
 import React, { FormEventHandler, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MatrixError, Room } from 'matrix-js-sdk';
 import {
   Box,
@@ -52,6 +53,7 @@ type CreateSpaceFormProps = {
   onCreate?: (roomId: string) => void;
 };
 export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceFormProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const alive = useAlive();
 
@@ -138,7 +140,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
   return (
     <Box as="form" onSubmit={handleSubmit} grow="Yes" direction="Column" gap="500">
       <Box direction="Column" gap="100">
-        <Text size="L400">Access</Text>
+        <Text size="L400">{t('Create.access', 'Access')}</Text>
         <CreateRoomAccessSelector
           value={access}
           onSelect={setAccess}
@@ -148,7 +150,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
         />
       </Box>
       <Box shrink="No" direction="Column" gap="100">
-        <Text size="L400">Name</Text>
+        <Text size="L400">{t('Create.name', 'Name')}</Text>
         <Input
           required
           before={<Icon size="100" src={getCreateSpaceAccessToIcon(access)} />}
@@ -162,7 +164,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
         />
       </Box>
       <Box shrink="No" direction="Column" gap="100">
-        <Text size="L400">Topic (Optional)</Text>
+        <Text size="L400">{t('Create.topicOptional', 'Topic (Optional)')}</Text>
         <TextArea
           name="topicTextAria"
           size="500"
@@ -176,7 +178,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
 
       <Box shrink="No" direction="Column" gap="100">
         <Box gap="200" alignItems="End">
-          <Text size="L400">Options</Text>
+          <Text size="L400">{t('Create.options', 'Options')}</Text>
           <Box grow="Yes" justifyContent="End">
             <Chip
               radii="Pill"
@@ -184,7 +186,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
               onClick={() => setAdvance(!advance)}
               type="button"
             >
-              <Text size="T200">Advanced Options</Text>
+              <Text size="T200">{t('Create.advancedOptions', 'Advanced Options')}</Text>
             </Chip>
           </Box>
         </Box>
@@ -210,8 +212,11 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
             gap="500"
           >
             <SettingTile
-              title="Knock to Join"
-              description="Anyone can send request to join this space."
+              title={t('Create.knockToJoin', 'Knock to Join')}
+              description={t(
+                'Create.knockToJoinSpaceDesc',
+                'Anyone can send request to join this space.'
+              )}
               after={
                 <Switch variant="Primary" value={knock} onChange={setKnock} disabled={disabled} />
               }
@@ -226,8 +231,8 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
           gap="500"
         >
           <SettingTile
-            title="Allow Federation"
-            description="Users from other servers can join."
+            title={t('Create.allowFederation', 'Allow Federation')}
+            description={t('Create.allowFederationDesc', 'Users from other servers can join.')}
             after={
               <Switch
                 variant="Primary"
@@ -271,7 +276,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
           disabled={disabled}
           before={loading && <Spinner variant="Primary" fill="Solid" size="200" />}
         >
-          <Text size="B500">Create</Text>
+          <Text size="B500">{t('Create.create', 'Create')}</Text>
         </Button>
       </Box>
     </Box>

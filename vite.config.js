@@ -79,8 +79,8 @@ export default defineConfig({
   publicDir: false,
   base: buildConfig.base,
   server: {
-    port: 8080,
-    host: true,
+    port: 3000,
+    host: '0.0.0.0',
     fs: {
       // Allow serving files from one level up to the project root
       allow: ['..'],
@@ -133,6 +133,17 @@ export default defineConfig({
     copyPublicDir: false,
     rollupOptions: {
       plugins: [inject({ Buffer: ['buffer', 'Buffer'] })],
+      onwarn(warning, defaultHandler) {
+        if (
+          warning.code === 'SOURCEMAP_ERROR' ||
+          warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
+          (warning.message && warning.message.includes("Can't resolve original location of error"))
+        ) {
+          return;
+        }
+        defaultHandler(warning);
+      },
     },
   },
 });
+

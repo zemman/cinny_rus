@@ -24,6 +24,7 @@ import {
   Button,
 } from 'folds';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Room } from 'matrix-js-sdk';
 import { useStateEvent } from '../../hooks/useStateEvent';
 import { PageHeader } from '../../components/page';
@@ -78,6 +79,7 @@ type RoomMenuProps = {
   requestClose: () => void;
 };
 const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose }, ref) => {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const [hideActivity] = useSetting(settingsAtom, 'hideActivity');
   const unread = useRoomUnread(room.roomId, roomToUnreadAtom);
@@ -135,7 +137,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           disabled={!unread}
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Mark as Read
+            {t('Chat.Header.mark_as_read', 'Mark as Read')}
           </Text>
         </MenuItem>
         <RoomNotificationModeSwitcher roomId={room.roomId} value={notificationMode}>
@@ -154,7 +156,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
               onClick={handleOpen}
             >
               <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                Notifications
+                {t('Chat.Header.notifications', 'Notifications')}
               </Text>
             </MenuItem>
           )}
@@ -173,7 +175,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           disabled={!canInvite}
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Invite
+            {t('Chat.Header.invite', 'Invite')}
           </Text>
         </MenuItem>
         <MenuItem
@@ -183,7 +185,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           radii="300"
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Copy Link
+            {t('Chat.Header.copy_link', 'Copy Link')}
           </Text>
         </MenuItem>
         <MenuItem
@@ -193,7 +195,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           radii="300"
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Room Settings
+            {t('Chat.Header.room_settings', 'Room Settings')}
           </Text>
         </MenuItem>
         <UseStateProvider initial={false}>
@@ -207,7 +209,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
                 aria-pressed={promptJump}
               >
                 <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                  Jump to Time
+                  {t('Chat.Header.jump_to_time', 'Jump to Time')}
                 </Text>
               </MenuItem>
               {promptJump && (
@@ -239,7 +241,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
                 aria-pressed={promptLeave}
               >
                 <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                  Leave Room
+                  {t('Chat.Header.leave_room', 'Leave Room')}
                 </Text>
               </MenuItem>
               {promptLeave && (
@@ -264,6 +266,7 @@ type CallMenuProps = {
 };
 const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
   ({ requestClose, onVoiceCall, onVideoCall }, ref) => {
+    const { t } = useTranslation();
     const handleVoice = () => {
       onVoiceCall();
       requestClose();
@@ -276,7 +279,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
     return (
       <Menu ref={ref} style={{ padding: config.space.S200, minWidth: toRem(150) }}>
         <Box direction="Column" gap="200">
-          <Text size="L400">Start Call</Text>
+          <Text size="L400">{t('Chat.Header.start_call', 'Start Call')}</Text>
           <Box direction="Column" gap="200">
             <Button
               size="300"
@@ -287,7 +290,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
               before={<Icon size="100" src={Icons.Phone} filled />}
               onClick={handleVoice}
             >
-              <Text size="B300">Voice</Text>
+              <Text size="B300">{t('Chat.Header.voice', 'Voice')}</Text>
             </Button>
             <Button
               size="300"
@@ -296,7 +299,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
               before={<Icon size="100" src={Icons.VideoCamera} filled />}
               onClick={handleVideo}
             >
-              <Text size="B300">Video</Text>
+              <Text size="B300">{t('Chat.Header.video', 'Video')}</Text>
             </Button>
           </Box>
         </Box>
@@ -306,6 +309,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
 );
 
 function CallButton() {
+  const { t } = useTranslation();
   const room = useRoom();
   const direct = useIsDirectRoom();
 
@@ -327,9 +331,14 @@ function CallButton() {
         tooltip={
           <Tooltip>
             {inAnotherCall ? (
-              <Text size="L400">Already in another call — End the current call to join!</Text>
+              <Text size="L400">
+                {t(
+                  'Chat.Header.already_in_call',
+                  'Already in another call — End the current call to join!'
+                )}
+              </Text>
             ) : (
-              <Text>Call</Text>
+              <Text>{t('Chat.Header.call', 'Call')}</Text>
             )}
           </Tooltip>
         }
@@ -384,6 +393,7 @@ function CallButton() {
 }
 
 export function RoomViewHeader({ callView }: { callView?: boolean }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
@@ -526,7 +536,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               offset={4}
               tooltip={
                 <Tooltip>
-                  <Text>Search</Text>
+                  <Text>{t('Chat.Header.search', 'Search')}</Text>
                 </Tooltip>
               }
             >
@@ -542,7 +552,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
             offset={4}
             tooltip={
               <Tooltip>
-                <Text>Pinned Messages</Text>
+                <Text>{t('Chat.Header.pinned_messages', 'Pinned Messages')}</Text>
               </Tooltip>
             }
           >
@@ -604,9 +614,13 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               tooltip={
                 <Tooltip>
                   {callView ? (
-                    <Text>Members</Text>
+                    <Text>{t('Chat.Header.members', 'Members')}</Text>
                   ) : (
-                    <Text>{peopleDrawer ? 'Hide Members' : 'Show Members'}</Text>
+                    <Text>
+                      {peopleDrawer
+                        ? t('Chat.Header.hide_members', 'Hide Members')
+                        : t('Chat.Header.show_members', 'Show Members')}
+                    </Text>
                   )}
                 </Tooltip>
               }
@@ -625,7 +639,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
             offset={4}
             tooltip={
               <Tooltip>
-                <Text>More Options</Text>
+                <Text>{t('Chat.Header.more_options', 'More Options')}</Text>
               </Tooltip>
             }
           >

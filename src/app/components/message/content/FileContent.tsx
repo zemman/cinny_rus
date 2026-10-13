@@ -17,6 +17,7 @@ import {
 import FileSaver from 'file-saver';
 import { EncryptedAttachmentInfo } from 'browser-encrypt-attachment';
 import FocusTrap from 'focus-trap-react';
+import { useTranslation } from 'react-i18next';
 import { IFileInfo } from '../../../../types/matrix/common';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
@@ -37,11 +38,11 @@ import {
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { ModalWide } from '../../../styles/Modal.css';
 
-const renderErrorButton = (retry: () => void, text: string) => (
+const renderErrorButton = (retry: () => void, text: string, tooltipText?: string) => (
   <TooltipProvider
     tooltip={
       <Tooltip variant="Critical">
-        <Text>Failed to load file!</Text>
+        <Text>{tooltipText || 'Failed to load file!'}</Text>
       </Tooltip>
     }
     position="Top"
@@ -80,6 +81,7 @@ type ReadTextFileProps = {
   renderViewer: (props: RenderTextViewerProps) => ReactNode;
 };
 export function ReadTextFile({ body, mimeType, url, encInfo, renderViewer }: ReadTextFileProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const [textViewer, setTextViewer] = useState(false);
@@ -97,6 +99,9 @@ export function ReadTextFile({ body, mimeType, url, encInfo, renderViewer }: Rea
       return text;
     }, [mx, useAuthentication, mimeType, encInfo, url])
   );
+
+  const openFileLabel = t('Chat.Message.open_file', 'Open File');
+  const errorTooltip = t('Chat.Message.failed_to_load_file', 'Failed to load file!');
 
   return (
     <>
@@ -130,7 +135,7 @@ export function ReadTextFile({ body, mimeType, url, encInfo, renderViewer }: Rea
         </Overlay>
       )}
       {textState.status === AsyncStatus.Error ? (
-        renderErrorButton(loadText, 'Open File')
+        renderErrorButton(loadText, openFileLabel, errorTooltip)
       ) : (
         <Button
           variant="Secondary"
@@ -150,7 +155,7 @@ export function ReadTextFile({ body, mimeType, url, encInfo, renderViewer }: Rea
           }
         >
           <Text size="B400" truncate>
-            Open File
+            {openFileLabel}
           </Text>
         </Button>
       )}
@@ -171,6 +176,7 @@ export type ReadPdfFileProps = {
   renderViewer: (props: RenderPdfViewerProps) => ReactNode;
 };
 export function ReadPdfFile({ body, mimeType, url, encInfo, renderViewer }: ReadPdfFileProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const [pdfViewer, setPdfViewer] = useState(false);
@@ -186,6 +192,9 @@ export function ReadPdfFile({ body, mimeType, url, encInfo, renderViewer }: Read
       return URL.createObjectURL(fileContent);
     }, [mx, url, useAuthentication, mimeType, encInfo])
   );
+
+  const openPdfLabel = t('Chat.Message.open_pdf', 'Open PDF');
+  const errorTooltip = t('Chat.Message.failed_to_load_file', 'Failed to load file!');
 
   return (
     <>
@@ -216,7 +225,7 @@ export function ReadPdfFile({ body, mimeType, url, encInfo, renderViewer }: Read
         </Overlay>
       )}
       {pdfState.status === AsyncStatus.Error ? (
-        renderErrorButton(loadPdf, 'Open PDF')
+        renderErrorButton(loadPdf, openPdfLabel, errorTooltip)
       ) : (
         <Button
           variant="Secondary"
@@ -234,7 +243,7 @@ export function ReadPdfFile({ body, mimeType, url, encInfo, renderViewer }: Read
           }
         >
           <Text size="B400" truncate>
-            Open PDF
+            {openPdfLabel}
           </Text>
         </Button>
       )}
@@ -250,6 +259,7 @@ export type DownloadFileProps = {
   encInfo?: EncryptedAttachmentInfo;
 };
 export function DownloadFile({ body, mimeType, url, info, encInfo }: DownloadFileProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
 
@@ -267,8 +277,15 @@ export function DownloadFile({ body, mimeType, url, info, encInfo }: DownloadFil
     }, [mx, url, useAuthentication, mimeType, encInfo, body])
   );
 
+  const formattedSize = bytesToSize(info.size ?? 0);
+  const downloadLabel = t('Chat.Message.download', 'Download ({{size}})', { size: formattedSize });
+  const retryLabel = t('Chat.Message.retry_download', 'Retry Download ({{size}})', {
+    size: formattedSize,
+  });
+  const errorTooltip = t('Chat.Message.failed_to_load_file', 'Failed to load file!');
+
   return downloadState.status === AsyncStatus.Error ? (
-    renderErrorButton(download, `Retry Download (${bytesToSize(info.size ?? 0)})`)
+    renderErrorButton(download, retryLabel, errorTooltip)
   ) : (
     <Button
       variant="Secondary"
@@ -289,7 +306,7 @@ export function DownloadFile({ body, mimeType, url, info, encInfo }: DownloadFil
         )
       }
     >
-      <Text size="B400" truncate>{`Download (${bytesToSize(info.size ?? 0)})`}</Text>
+      <Text size="B400" truncate>{downloadLabel}</Text>
     </Button>
   );
 }
